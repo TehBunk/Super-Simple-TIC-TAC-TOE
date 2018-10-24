@@ -1,0 +1,398 @@
+package main;
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.JFrame;
+
+@SuppressWarnings("serial")
+public class TICTACTOE extends JFrame implements MouseListener {
+
+	private final int WIDTH = 700, HEIGHT = 450;
+
+	String[] board = { "E", "E", "E", "E", "E", "E", "E", "E", "E" };
+	boolean xTurn = true, change = false, fix = false, won = false, computer = false;
+	int p1 = 0, p2 = 0;
+
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		TICTACTOE game = new TICTACTOE();
+	}
+
+	public TICTACTOE() {
+		setTitle("TIC TAC TOE");
+		setSize(WIDTH, HEIGHT);
+		setBackground(Color.BLACK);
+		setResizable(false);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		paint(getGraphics());
+		addMouseListener(this);
+	}
+
+	public void paint(Graphics g) {
+		g.setColor(Color.WHITE);
+		/* GRID */
+		g.drawRect(50, 50, 100, 100);
+		g.drawRect(50, 150, 100, 100);
+		g.drawRect(50, 250, 100, 100);
+		g.drawRect(150, 50, 100, 100);
+		g.drawRect(250, 50, 100, 100);
+		g.drawRect(150, 150, 100, 100);
+		g.drawRect(250, 150, 100, 100);
+		g.drawRect(150, 250, 100, 100);
+		g.drawRect(250, 250, 100, 100);
+		/* REFRESH */
+		g.drawRect(400, 250, 250, 100);
+		/* TEXT */
+		if (change) {
+			g.setColor(Color.BLACK);
+			g.fillRect(375, 100, 300, 100);
+			change = false;
+		}
+		g.setColor(Color.WHITE);
+		g.drawString("TIC TAC TOE", 425, 60);
+		g.drawString("TURN: ", 425, 100);
+		g.drawString((xTurn ? "X" : "O") + "'s", 435, 120);
+		g.drawString("SCORE: ", 425, 150);
+		g.drawString("PLAYER ONE (X's): " + p1, 425, 170);
+		g.drawString("PLAYER TWO (O's): " + p2, 425, 185);
+		g.drawString("GAME CREATED BY TEHBUNK", 425, 225);
+		g.drawString("HOW TO PLAY: CLICK ON THE SQUARE YOU WOULD LIKE TO OBTAIN. (MAKE SURE IT'S YOUR TURN)", 50, 400);
+		g.drawString("REFRESH BOARD", 475, 300);
+		/* X / O LOGO */
+		drawXO(g);
+		/* WIN?? */
+		win();
+		/* END */
+		repaint();
+	}
+
+	private void win() {
+		for (int i = 0; i < board.length; i++)
+			if (board[i].equals("E"))
+				return;
+		if (won)
+			return;
+		String start = board[0];
+		if (board[3].equals(start) && board[6].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		if (board[1].equals(start) && board[2].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		start = board[4];
+		if (board[0].equals(start) && board[8].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		if (board[6].equals(start) && board[2].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		if (board[2].equals(start) && board[5].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		if (board[1].equals(start) && board[7].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		start = board[8];
+		if (board[2].equals(start) && board[5].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+		if (board[6].equals(start) && board[7].equals(start)) {
+			if (start.equals("X"))
+				p1++;
+			else
+				p2++;
+			won = true;
+			change = true;
+			return;
+		}
+	}
+
+	private void drawXO(Graphics g) {
+		if (board[0].equals("X"))
+			drawx(0, g);
+		if (board[1].equals("X"))
+			drawx(1, g);
+		if (board[2].equals("X"))
+			drawx(2, g);
+		if (board[3].equals("X"))
+			drawx(3, g);
+		if (board[4].equals("X"))
+			drawx(4, g);
+		if (board[5].equals("X"))
+			drawx(5, g);
+		if (board[6].equals("X"))
+			drawx(6, g);
+		if (board[7].equals("X"))
+			drawx(7, g);
+		if (board[8].equals("X"))
+			drawx(8, g);
+		if (board[0].equals("O"))
+			drawo(0, g);
+		if (board[1].equals("O"))
+			drawo(1, g);
+		if (board[2].equals("O"))
+			drawo(2, g);
+		if (board[3].equals("O"))
+			drawo(3, g);
+		if (board[4].equals("O"))
+			drawo(4, g);
+		if (board[5].equals("O"))
+			drawo(5, g);
+		if (board[6].equals("O"))
+			drawo(6, g);
+		if (board[7].equals("O"))
+			drawo(7, g);
+		if (board[8].equals("O"))
+			drawo(8, g);
+		if (fix) {
+			g.setColor(Color.BLACK);
+			g.fillRect(50, 50, 350, 350);
+			fix = false;
+		}
+	}
+
+	private void click(Point point) {
+		int x = (int) point.getX(), y = (int) point.getY();
+		boolean suc = false;
+		if (x >= 400 && x <= 650 && y >= 250 && y <= 350) {
+			System.out.println("REFRESH");
+			for (int i = 0; i < board.length; i++)
+				board[i] = "E";
+			fix = true;
+			won = false;
+		}
+		// ===========================================================================
+		if (x >= 50 && x <= 150 && y >= 50 && y <= 150) {
+			if (!owned(0)) {
+				if (xTurn)
+					board[0] = "X";
+				else
+					board[0] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 50 && x <= 150 && y >= 150 && y <= 250) {
+			if (!owned(1)) {
+				if (xTurn)
+					board[1] = "X";
+				else
+					board[1] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 50 && x <= 150 && y >= 250 && y <= 350) {
+			if (!owned(2)) {
+				if (xTurn)
+					board[2] = "X";
+				else
+					board[2] = "O";
+				suc = true;
+			}
+		}
+		// ===========================================================================
+		if (x >= 150 && x <= 250 && y >= 50 && y <= 150) {
+			if (!owned(3)) {
+				if (xTurn)
+					board[3] = "X";
+				else
+					board[3] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 150 && x <= 250 && y >= 150 && y <= 250) {
+			if (!owned(4)) {
+				if (xTurn)
+					board[4] = "X";
+				else
+					board[4] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 150 && x <= 250 && y >= 250 && y <= 350) {
+			if (!owned(5)) {
+				if (xTurn)
+					board[5] = "X";
+				else
+					board[5] = "O";
+				suc = true;
+			}
+		}
+		// ===========================================================================
+		if (x >= 250 && x <= 350 && y >= 50 && y <= 150) {
+			if (!owned(6)) {
+				if (xTurn)
+					board[6] = "X";
+				else
+					board[6] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 250 && x <= 350 && y >= 150 && y <= 250) {
+			if (!owned(7)) {
+				if (xTurn)
+					board[7] = "X";
+				else
+					board[7] = "O";
+				suc = true;
+			}
+		}
+		if (x >= 250 && x <= 350 && y >= 250 && y <= 350) {
+			if (!owned(8)) {
+				if (xTurn)
+					board[8] = "X";
+				else
+					board[8] = "O";
+				suc = true;
+			}
+		}
+		if (computer) {
+			// IF WANT COMPUTER ADD HERE SO IT WILL MOVE AFTER PLAYER SELECTS
+			// PROBABLY ALSO CHANGE IT UP A BIT ABOVE SO THE PLAYER CAN ONLY CLICK IF
+			// IF ITS HIS TURN AND THEN THE COMPUTER HAS A GO
+		}
+		if (suc) {
+			xTurn = !xTurn;
+			change = !change;
+		}
+	}
+
+	private boolean owned(int cell) {
+		if (board[cell].equalsIgnoreCase("E"))
+			return false;
+		return true;
+	}
+
+	private void drawx(int cell, Graphics g) {
+		int w = 80, h = 80;
+		if (cell == 0) {
+			g.drawLine(60, 60, 60 + w, 60 + h);
+			g.drawLine(60 + w, 60, 60, 60 + h);
+		}
+		if (cell == 1) {
+			g.drawLine(60, 160, 60 + w, 160 + h);
+			g.drawLine(60 + w, 160, 60, 160 + h);
+		}
+		if (cell == 2) {
+			g.drawLine(60, 260, 60 + w, 260 + h);
+			g.drawLine(60 + w, 260, 60, 260 + h);
+		}
+		if (cell == 3) {
+			g.drawLine(160, 60, 160 + w, 60 + h);
+			g.drawLine(160 + w, 60, 160, 60 + h);
+		}
+		if (cell == 4) {
+			g.drawLine(160, 160, 160 + w, 160 + h);
+			g.drawLine(160 + w, 160, 160, 160 + h);
+		}
+		if (cell == 5) {
+			g.drawLine(160, 260, 160 + w, 260 + h);
+			g.drawLine(160 + w, 260, 160, 260 + h);
+		}
+
+		if (cell == 6) {
+			g.drawLine(260, 60, 260 + w, 60 + h);
+			g.drawLine(260 + w, 60, 260, 60 + h);
+		}
+		if (cell == 7) {
+			g.drawLine(260, 160, 260 + w, 160 + h);
+			g.drawLine(260 + w, 160, 260, 160 + h);
+		}
+		if (cell == 8) {
+			g.drawLine(260, 260, 260 + w, 260 + h);
+			g.drawLine(260 + w, 260, 260, 260 + h);
+		}
+	}
+
+	private void drawo(int cell, Graphics g) {
+		if (cell == 0)
+			g.drawRect(65, 65, 70, 70);
+		if (cell == 1)
+			g.drawRect(65, 165, 70, 70);
+		if (cell == 2)
+			g.drawRect(65, 265, 70, 70);
+		if (cell == 3)
+			g.drawRect(165, 65, 70, 70);
+		if (cell == 4)
+			g.drawRect(165, 165, 70, 70);
+		if (cell == 5)
+			g.drawRect(165, 265, 70, 70);
+		if (cell == 6)
+			g.drawRect(265, 65, 70, 70);
+		if (cell == 7)
+			g.drawRect(265, 165, 70, 70);
+		if (cell == 8)
+			g.drawRect(265, 265, 70, 70);
+	}
+	/*
+	 * Mouse listener
+	 */
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		click(e.getPoint());
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+	}
+
+}
